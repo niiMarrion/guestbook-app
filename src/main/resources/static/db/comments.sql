@@ -1,0 +1,3 @@
+INSERT INTO `comments`(`id`, `create_date`, `description`, `status`, `update_date`, `user_id`, `approval`, `photos`) VALUES (2, '2022-01-18 02:07:00', 'hey i need help with the comments and the pictures', 'PASSIVE', NULL, 1, 'UNAPPROVED', NULL);
+INSERT INTO `comments`(`id`, `create_date`, `description`, `status`, `update_date`, `user_id`, `approval`, `photos`) VALUES (3, '2022-01-19 15:30:37', NULL, 'ACTIVE', NULL, 1, 'APPROVED', 'Screenshot (1).png');
+INSERT INTO `comments`(`id`, `create_date`, `description`, `status`, `update_date`, `user_id`, `approval`, `photos`) VALUES (4, '2022-01-19 15:30:48', NULL, 'PASSIVE', NULL, 1, 'UNAPPROVED', 'Screenshot (1).png');

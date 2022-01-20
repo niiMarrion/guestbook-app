@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Home</title>
+    <meta name="description" content="spring-boot thymeleaf | home ">
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="addTaskTab">
+        <div class="container">
+            <div class="content-container clearfix">
+                <div class="row">
+                    <h1 class="content-title">Add Comment</h1>
+                    <!--star operations messages-->
+                    <div th:if="${msg eq 'success'}" class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        Task Saved <strong> Successfully</strong>
+                    </div>
+                    <div th:if="${msg eq 'fail'}" class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        <strong>Unexpected error occurred !!! Please try later.</strong>
+                    </div>
+                    <div th:if="${msg eq 'active'}" class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        <strong><h6 th:text="${msgText}"/></strong>
+                    </div>
+                    <div th:if="${msg eq 'active_fail'}" class="alert alert-danger alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        <strong>Error !!!</strong> <h6 th:text="${msgText}"/>
+                    </div>
+                    <div th:if="${msg eq 'trash'}" class="alert alert-success alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert"
+                                aria-hidden="true">&times;
+                        </button>
+                        Comment Sent to Trash Box
+                    </div>
+                    <!--end of messages-->
+                    <form th:object="${reqComment}" th:action="@{/comment/saveComment}" method="post">
+                        <div class="col-md-12">
+                            <textarea class="form-control" th:field="*{description}" placeholder="Details"
+                                      required="required"></textarea>
+                            <div class="float-left btn-send">
+                                <button class="btn btn-success btn-md"><span class="glyphicon glyphicon-send"></span>
+                                    Create
+                                </button>
+                            </div>
+                        </div>
+                        <br/>
+                    </form>
+                </div>
+                <span class="help-block"></span>
+
+                <div class="row">
+                    <h1 class="content-title">Upload an image</h1>
+                    <form th:object="${reqComment}" th:action="@{/comment/saveImage}" method="post" enctype="multipart/form-data">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <input  type="file" class="form-control"
+                                       placeholder="Upload image" accept="image/png, image/jpeg" name="image"/>
+                            </div>
+                            <div class="float-left btn-send">
+                                <button class="btn btn-success btn-md"><span class="glyphicon glyphicon-send"></span>
+                                    Upload Image
+                                </button>
+                            </div>
+                        </div>
+                        <br/>
+                    </form>
+                </div>
+
+                <span class="help-block"></span>
+
+                <div class="row">
+                    <div class="panel panel-info">
+                        <div class="panel-body">
+                            <table class="table table-bordered  table-striped table-responsive">
+                                <thead>
+                                <tr class="btn-info">
+                                    <th>Description</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:if="${#lists.isEmpty(allComment)}" class="btn-default">
+                                    <td colspan="5" align="center">No Comment Entered Yet!!!</td>
+                                </tr>
+                                <tr th:each="comment: ${allComment}">
+                                    <td th:text="${comment.description}"></td>
+                                    <td th:text="${comment.createDate}"></td>
+                                    <td th:hidden="${comment.id}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+<!--<footer>
+    <div class="separator" th:replace="fragments/footer :: footer">&copy; 2021 BT</div>
+</footer>-->
+
+<script type="text/javascript">
+    $(function () {
+        $('#startDatePicker').datetimepicker({
+            defaultDate: 'now',
+            viewMode: 'days',
+            format: 'DD/MM/YYYY'
+        });
+    });
+
+
+</script>
+<script>
+    $('#modal-toTrash').on('show.bs.modal', function (e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        $('#modal-toTrashHiddenId').val($(this).find('.btn-ok').attr('href'));
+    });
+
+    $('#modal-delete').on('show.bs.modal', function (e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+        $('#modal-deleteHiddenId').val($(this).find('.btn-ok').attr('href'));
+    });
+
+</script>
+</body>
+</html>
